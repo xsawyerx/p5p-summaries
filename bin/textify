@@ -1,2 +1,2 @@
 #!/bin/sh
-markdown $@ | elinks -dump
+markdown $@ | elinks -dump | grep -v "^\s\+Visible links$"

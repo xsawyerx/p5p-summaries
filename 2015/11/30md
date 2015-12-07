@@ -21,7 +21,7 @@ and [Pod::Text](https://metacpan.org/pod/Pod::Text))
 Soon thereafter, versions 4.01, 4.02, and 4.03 were released
 as well.
 
-The Mac OS 10.9 compiler is compilation problems for ithreads
+The Mac OS 10.9 compiler has compilation problems on ithreads
 builds since Jarkko Hietaniemi introduced a commit that adds
 [clang](https://clang.org) thread safety analysis annotations
 to the perl source code. With the help of Aaron Crane, it was

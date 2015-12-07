@@ -1,4 +1,4 @@
-# November 30th - December 6th
+# November 30th - December 7th
 
 ## Updates
 
@@ -31,6 +31,8 @@ decided to only support this when using a later version of clang.
 
 ### Reported bugs
 
+* [Perl #126794](https://rt.perl.org/Ticket/Display.html?id=126794):
+  `$Config{installsitescript}` not populated.
 * [Perl #126812](https://rt.perl.org/Ticket/Display.html?id=126812):
   Feature request for
   [Data::Dumper](https://metacpan.org/pod/Data::Dumper) to support
@@ -46,32 +48,33 @@ decided to only support this when using a later version of clang.
 * [Perl #126815](https://rt.perl.org/Ticket/Display.html?id=126815):
   Segfault discovered by fuzzing. Possibly a dup of
   [Perl #125540](https://rt.perl.org/Ticket/Display.html?id=125540).
-* [Perl #126794](https://rt.perl.org/Ticket/Display.html?id=126794):
-  `$Config{installsitescript}` not populated.
+* [Perl #126837](https://rt.perl.org/Ticket/Display.html?id=126837):
+  Segfault in a custom `perl -d:KP` after loading
+  [Time::HiRes](https://metacpan.org/pod/Time::HiRes).
 
 ### Resolved bugs
 
-* [Perl #126753](https://rt.perl.org/Ticket/Display.html?id=126753):
-  Move Win32 `$^X` code to where the `$^X` code for other OSes live.
-* Proposed patch to make `-O` in `Configure` the default.
-* [Perl #126260](https://rt.perl.org/Ticket/Display.html?id=126260):
-  Division by zero error.
-* [Perl #123991](https://rt.perl.org/Ticket/Display.html?id=123991):
-  Null pointer dereference.
-* [Perl #126735](https://rt.perl.org/Ticket/Display.html?id=126735):
-  Perl debugging disconnecting problem.
-* [Perl #126245](https://rt.perl.org/Ticket/Display.html?id=126245):
-  perlapi `SvLEN_set` documentation confusingly similiar to
-  `SvCUR_set`.
-* [Perl #126437](https://rt.perl.org/Ticket/Display.html?id=126437):
-  `hex` documentation not clear on invalid input.
-* [Perl #126608](https://rt.perl.org/Ticket/Display.html?id=126608):
-  **lookahead** or **look-ahead**? The former!
 * [Perl #121048](https://rt.perl.org/Ticket/Display.html?id=121048),
   [Perl #125341](https://rt.perl.org/Ticket/Display.html?id=125341),
   and
   [Perl #125789](https://rt.perl.org/Ticket/Display.html?id=125789):
   Illegal sub declaration crashes.
+* [Perl #123991](https://rt.perl.org/Ticket/Display.html?id=123991):
+  Null pointer dereference.
+* [Perl #126245](https://rt.perl.org/Ticket/Display.html?id=126245):
+  perlapi `SvLEN_set` documentation confusingly similiar to
+  `SvCUR_set`.
+* [Perl #126260](https://rt.perl.org/Ticket/Display.html?id=126260):
+  Division by zero error.
+* [Perl #126437](https://rt.perl.org/Ticket/Display.html?id=126437):
+  `hex` documentation not clear on invalid input.
+* [Perl #126608](https://rt.perl.org/Ticket/Display.html?id=126608):
+  **lookahead** or **look-ahead**? The former!
+* [Perl #126735](https://rt.perl.org/Ticket/Display.html?id=126735):
+  Perl debugging disconnecting problem.
+* [Perl #126753](https://rt.perl.org/Ticket/Display.html?id=126753):
+  Move Win32 `$^X` code to where the `$^X` code for other OSes live.
+* Proposed patch to make `-O` in `Configure` the default.
 
 ## Proposed patches
 
@@ -87,10 +90,14 @@ Sullivan Beck provided a
 [patch](http://www.nntp.perl.org/group/perl.perl5.porters/233029)
 to update [Locale::Codes](https://metacpan.org/pod/Locale::Codes).
 
-Doug Bell provides a patch in
+Doug Bell provided a patch in
 [Perl #126821](https://rt.perl.org/Ticket/Display.html?id=126821)
 to mention the use of `$?` in backticks documentation. This patch
 had already been merged.
+
+Achim Gratz provided a patch in
+[Perl #126834](https://rt.perl.org/Ticket/Display.html?id=126834)
+to fix a Cygwin-related test.
 
 ## Discussion
 
@@ -102,6 +109,10 @@ between what a type **is** (in a manner of speaking) and **how**
 you can use it. The suggestion and the responses are an interesting
 read that detail some of the difficulties in types in dynamic
 languages.
+
+Dave Mitchell
+[raised](http://www.nntp.perl.org/group/perl.perl5.porters/233053)
+a discussion the semantics of `@_` with signature subroutines.
 
 Hanno Böck
 [noted](http://www.nntp.perl.org/group/perl.perl5.porters/232983)
@@ -124,3 +135,6 @@ Karl Williamson is
 that `Porting/bench.pl` does not include `utf8_heavy.pl` in its
 results.
 
+Karl also
+[inquired](http://www.nntp.perl.org/group/perl.perl5.porters/233125)
+about utf8 support in identifier names.

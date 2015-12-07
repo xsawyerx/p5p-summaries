@@ -62,7 +62,7 @@ decided to only support this when using a later version of clang.
 * [Perl #123991](https://rt.perl.org/Ticket/Display.html?id=123991):
   Null pointer dereference.
 * [Perl #126245](https://rt.perl.org/Ticket/Display.html?id=126245):
-  perlapi `SvLEN_set` documentation confusingly similiar to
+  perlapi `SvLEN_set` documentation confusingly similar to
   `SvCUR_set`.
 * [Perl #126260](https://rt.perl.org/Ticket/Display.html?id=126260):
   Division by zero error.
@@ -104,7 +104,7 @@ to fix a Cygwin-related test.
 Yves Orton
 [suggests](http://www.nntp.perl.org/group/perl.perl5.porters/232974)
 setting `SVf_POK`, `SVf_IOK`, and `SVf_NOK` flags only when on
-setting and not on conversion. This will allow differenciating
+setting and not on conversion. This will allow differentiating
 between what a type **is** (in a manner of speaking) and **how**
 you can use it. The suggestion and the responses are an interesting
 read that detail some of the difficulties in types in dynamic

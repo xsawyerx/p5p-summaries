@@ -32,7 +32,7 @@ decided to only support this when using a later version of clang.
 ### Reported bugs
 
 * [Perl #126794](https://rt.perl.org/Ticket/Display.html?id=126794):
-  `$Config{installsitescript}` not populated.
+  `$Config{installsitescript}` not populated on Windows.
 * [Perl #126812](https://rt.perl.org/Ticket/Display.html?id=126812):
   Feature request for
   [Data::Dumper](https://metacpan.org/pod/Data::Dumper) to support
@@ -126,8 +126,9 @@ Dave Mitchell helped debug
 and Karl Williamson provides more details and is working on a fix.
 
 Ed Avis is looking at standardizing more documentation and words
-with different spelling. Now looking at **regex** vs. **regexp**,
-Ed [asks](http://www.nntp.perl.org/group/perl.perl5.porters/233016)
+with different spellings and pronounciations. Now looking at
+**regex** vs. **regexp**, Ed
+[asks](http://www.nntp.perl.org/group/perl.perl5.porters/233016)
 which should be used. Opinions differ, as usual.
 
 Karl Williamson is

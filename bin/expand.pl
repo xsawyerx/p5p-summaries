@@ -17,7 +17,7 @@ use warnings;
 
 my %REGEX = (
     RT => qr/RT#(\d+)/,
-    ML => qr/ML:([A-Za-z\s]+)#(\d+)/,
+    ML => qr/ML:([A-Za-z\s0-9]+)#(\d+)/,
     MC => qr/MC#([A-Za-z\:\_0-9]+)/,
 );
 

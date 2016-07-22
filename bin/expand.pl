@@ -44,13 +44,16 @@ sub escape_markdown {
 }
 
 while ( my $line = <STDIN> ) {
+    my $match;
     my $spaces = '';
+
     #if ( $line =~ m{^([^A-Z]+)}xms ) {
     if ( $line =~ m{^([\s\*\-]+)}xms ) {
         $spaces = ' ' x length $1;
     }
 
     while ( $line =~ $REGEX{'RT'} ) {
+        $match = 1;
         my $ticket_id = $1;
 
         $log->append("[Perl #$ticket_id] Fetching details...\n");
@@ -67,6 +70,8 @@ while ( my $line = <STDIN> ) {
     }
 
     while ( $line =~ $REGEX{'ML'} ) {
+        $match = 1;
+
         my $ml_text = $1;
         my $ml_id   = $2;
 
@@ -84,6 +89,7 @@ while ( my $line = <STDIN> ) {
     }
 
     while ( $line =~ $REGEX{'MC'} ) {
+        $match = 1;
         my $module_name = $1;
 
         $log->append("[CPAN: $module_name] Creating URL.\n");
@@ -93,6 +99,9 @@ while ( my $line = <STDIN> ) {
         $line =~ s!$REGEX{'MC'}![$1]($url)!xms;
         $line = wrap( '', '', $line );
     }
+
+    $match
+        or $line = wrap( '', $spaces, $line );
 
     print $line;
 }

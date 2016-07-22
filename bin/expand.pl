@@ -58,7 +58,7 @@ while ( my $line = <STDIN> ) {
         my $url     = "http://rt.perl.org/Ticket/Display.html?id=$ticket_id";
         my $content = $ua->get($url)->{'content'};
         my $title   = wq($content)->find('title')->first->text;
-        $title =~ s{^Bug \#$ticket_id for perl5:\s*}{}xms;
+        $title =~ s{^Bug \s \#$ticket_id \s for \s perl5: \s*}{}xms;
         $log->append("[Perl #$ticket_id] Found title: $title.\n");
         escape_markdown($title);
 
@@ -75,7 +75,7 @@ while ( my $line = <STDIN> ) {
         my $url = "http://www.nntp.perl.org/group/perl.perl5.porters/$ml_id";
         my $content = $ua->get($url)->{'content'};
         my $title   = wq($content)->find('title')->first->text;
-        $title =~ s{\s+-\s+nntp\.perl\.org\s*$}{}xms;
+        $title =~ s{ \s+ - \s+ nntp\.perl\.org \s* $}{}xms;
         $log->append("[NNTP #$ml_id] Found title: $title.\n");
         escape_markdown($title);
 

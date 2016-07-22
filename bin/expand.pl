@@ -14,16 +14,85 @@
 
 use strict;
 use warnings;
+use HTTP::Tiny;
+use Web::Query qw< wq >;
+use Text::Wrap qw< wrap >;
+use Path::Tiny qw< path >;
 
-my %REGEX = (
-    RT => qr/RT#(\d+)/,
-    ML => qr/ML:([A-Za-z\s0-9]+)#(\d+)/,
-    MC => qr/MC#([A-Za-z\:\_0-9]+)/,
+local $ENV{'HTTP_PROXY'}   = '';
+local $ENV{'http_proxy'}   = '';
+local $ENV{'https_proxy'}  = '';
+local $Text::Wrap::columns = 72;
+
+my $ua = HTTP::Tiny->new(
+    'proxy'       => undef,
+    'http_proxy'  => undef,
+    'https_proxy' => undef,
 );
 
+my %REGEX = (
+    'RT' => qr/RT\#(\d+)/xms,
+    'ML' => qr/ML:([A-Za-z\s0-9]+)\#(\d+)/xms,
+    'MC' => qr/MC\#([A-Za-z\:\_0-9]+)/xms,
+);
+
+my $log = path('/tmp/summaries.txt');
+
+sub escape_markdown {
+    $_[0] =~ s@([\\`\*\{\}\[\]\(\)\#\+\-\.\!\_\>])@\\$1@xmsg;
+    return;
+}
+
 while ( my $line = <STDIN> ) {
-    $line =~ s!$REGEX{'RT'}![Perl #$1](https://rt.perl.org/Ticket/Display.html?id=$1)!g;
-    $line =~ s!$REGEX{'ML'}![$1](http://www.nntp.perl.org/group/perl.perl5.porters/$2)!g;
-    $line =~ s!$REGEX{'MC'}![$1](https://metacpan.org/pod/$1)!g;
+    my $spaces = '';
+    #if ( $line =~ m{^([^A-Z]+)}xms ) {
+    if ( $line =~ m{^([\s\*\-]+)}xms ) {
+        $spaces = ' ' x length $1;
+    }
+
+    while ( $line =~ $REGEX{'RT'} ) {
+        my $ticket_id = $1;
+
+        $log->append("[Perl #$ticket_id] Fetching details...\n");
+
+        my $url     = "http://rt.perl.org/Ticket/Display.html?id=$ticket_id";
+        my $content = $ua->get($url)->{'content'};
+        my $title   = wq($content)->find('title')->first->text;
+        $title =~ s{^Bug \#$ticket_id for perl5:\s*}{}xms;
+        $log->append("[Perl #$ticket_id] Found title: $title.\n");
+        escape_markdown($title);
+
+        $line =~ s!$REGEX{'RT'}![Perl #$ticket_id]($url): $title.!xms;
+        $line = wrap( '', $spaces, $line );
+    }
+
+    while ( $line =~ $REGEX{'ML'} ) {
+        my $ml_text = $1;
+        my $ml_id   = $2;
+
+        $log->append("[NNTP #$ml_id] Fetching details...\n");
+
+        my $url = "http://www.nntp.perl.org/group/perl.perl5.porters/$ml_id";
+        my $content = $ua->get($url)->{'content'};
+        my $title   = wq($content)->find('title')->first->text;
+        $title =~ s{\s+-\s+nntp\.perl\.org\s*$}{}xms;
+        $log->append("[NNTP #$ml_id] Found title: $title.\n");
+        escape_markdown($title);
+
+        $line =~ s!$REGEX{'ML'}![$1]($url) ($title)!xms;
+        $line = wrap( '', $spaces, $line );
+    }
+
+    while ( $line =~ $REGEX{'MC'} ) {
+        my $module_name = $1;
+
+        $log->append("[CPAN: $module_name] Creating URL.\n");
+
+        my $url = "http://metacpan.org/pod/$module_name";
+
+        $line =~ s!$REGEX{'MC'}![$1]($url)!xms;
+        $line = wrap( '', '', $line );
+    }
+
     print $line;
 }

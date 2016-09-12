@@ -77,7 +77,7 @@ while ( my $line = <STDIN> ) {
 
         $log->append("[NNTP #$ml_id] Fetching details...\n");
 
-        my $url = "http://www.nntp.perl.org/group/perl.perl5.porters/$ml_id";
+        my $url = "http://nntp.perl.org/group/perl.perl5.porters/$ml_id";
         my $content = $ua->get($url)->{'content'};
         my $title   = wq($content)->find('title')->first->text;
         $title =~ s{ \s+ - \s+ nntp\.perl\.org \s* $}{}xms;

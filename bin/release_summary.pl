@@ -52,7 +52,7 @@ if ( prompt( 'Test links? (y/n)', 'y' ) eq 'y' ) {
         if ( $title =~ /RT error/i ) {
             print colored( ['red'], "Error: $title\n" );
         } else {
-            print colored( ['green'], "\t $title\n" );
+            print colored( ['green'], "-> $title\n" );
         }
 
         print "\n";

@@ -34,7 +34,7 @@ print "Creating txt form...\n";
 system "$textify $mdfile > $txtfile";
 
 if ( prompt( 'Test links? (y/n)', 'y' ) eq 'y' ) {
-    chomp( my @lines = $txtfile->lines_utf8 );
+    my @lines = $txtfile->lines_utf8( { 'chomp' => 1 } );
     foreach my $line (@lines) {
         $line =~ qr{^\s+\d+\.\s(https?://.+)$}xms
             or next;
@@ -69,7 +69,7 @@ if ( $release_notes->exists ) {
     $release_notes->remove;
 }
 
-my $dates = ( $txtfile->lines_utf8( { 'count' => 1 } ) )[0] =~ s{(^\s+|\n)}{}r;
+my $dates = ( $txtfile->lines_utf8( { 'count' => 1, 'chomp' => 1 } ) )[0];
 my $title = "Perl 5 Porters Mailing List Summary: $dates";
 
 my $desc = qq{Hey everyone,\n\n} .

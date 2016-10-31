@@ -70,6 +70,7 @@ if ( $release_notes->exists ) {
 }
 
 my $dates = ( $txtfile->lines_utf8( { 'count' => 1, 'chomp' => 1 } ) )[0];
+$dates =~ s/^\s+//;
 my $title = "Perl 5 Porters Mailing List Summary: $dates";
 
 my $desc = qq{Hey everyone,\n\n} .

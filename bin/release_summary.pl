@@ -44,7 +44,7 @@ if ( prompt( 'Test links? (y/n)', 'y' ) eq 'y' ) {
         print "[$url]:\n";
         my $html = wq($url);
         if ( !$html ) {
-            print colored( ['red'], "Error fetching\n\n" );
+            print colored( ['red'], "** Error fetching\n\n" );
             next;
         }
 

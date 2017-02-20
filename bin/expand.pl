@@ -34,6 +34,7 @@ my %REGEX = (
     'RT' => qr/RT\#(\d+)/xms,
     'ML' => qr/ML:([A-Za-z\s0-9]+)\#(\d+)/xms,
     'MC' => qr/MC\#([A-Za-z\:\_0-9]+)/xms,
+    'MR' => qr/MR\#([A-Za-z\:\_0-9]+)/xms,
 );
 
 my $log = path('/tmp/summaries.txt');
@@ -99,6 +100,19 @@ while ( my $line = <STDIN> ) {
         $line =~ s!$REGEX{'MC'}![$1]($url)!xms;
         $line = wrap( '', '', $line );
     }
+
+    while ( $line =~ $REGEX{'MR'} ) {
+        $match = 1;
+        my $module_name = $1;
+
+        $log->append("[CPAN release: $module_name] Creating URL.\n");
+
+        my $url = "http://metacpan.org/release/$module_name";
+
+        $line =~ s!$REGEX{'MR'}![$1]($url)!xms;
+        $line = wrap( '', '', $line );
+    }
+
 
     $match
         or $line = wrap( '', $spaces, $line );

@@ -34,7 +34,7 @@ my %REGEX = (
     'RT' => qr/RT\#(\d+)/xms,
     'ML' => qr/ML:([A-Za-z\s0-9]+)\#(\d+)/xms,
     'MC' => qr/MC\#([A-Za-z\:\_0-9]+)/xms,
-    'MR' => qr/MR\#([A-Za-z\:\_0-9]+)/xms,
+    'MR' => qr/MR\#([A-Za-z\:\_\-0-9]+)/xms,
 );
 
 my $log = path('/tmp/summaries.txt');
